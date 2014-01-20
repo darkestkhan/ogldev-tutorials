@@ -27,7 +27,6 @@ pragma License (Modified_GPL);
 -- covered by the  GNU Public License.                                      --
 ------------------------------------------------------------------------------
 with Lumen.Events.Animate;
-with Lumen.GL;
 with Lumen.Window;
 use Lumen;
 
