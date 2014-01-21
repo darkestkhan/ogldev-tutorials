@@ -175,7 +175,7 @@ package body Util is
     Validate_Error        : exception;
     -- Local variables.
     Shader_Program: constant GL.UInt := GL.Create_Program;
-    Dir           : constant String := "src/tut06/shaders/";
+    Dir           : constant String := "src/tut08/shaders/";
     Success       : Boolean := False;
 
     -------------------------------------------------------------------------
