@@ -6,3 +6,4 @@ gprbuild -p src/tut03.gpr
 gprbuild -p src/tut05.gpr
 gprbuild -p src/tut06.gpr
 gprbuild -p src/tut07.gpr
+gprbuild -p src/tut08.gpr
