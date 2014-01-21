@@ -219,8 +219,12 @@ package body Util is
     GL.Clear_Color (0.0, 0.0, 0.0, 0.0);
 
     Create_Vertex_Buffer: declare
-      Vertices: constant array (0 .. 8) of Float :=
-        ( -1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0 );
+      Vertices: constant array (0 .. 11) of Float :=
+        ( -1.0, -1.0, 0.0,
+           0.0, -1.0, 1.0,
+           1.0, -1.0, 0.0,
+           0.0,  1.0, 0.0
+        );
     begin
       GL.Gen_Buffers (1, VBO'Address);
       GL.Bind_Buffer (GL.GL_ARRAY_BUFFER, VBO);
