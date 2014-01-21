@@ -29,6 +29,8 @@ pragma License (Modified_GPL);
 with System;
 
 with Lumen.GL;
+with Lumen.Program;
+with Lumen.Shader;
 package body Util is
 
   ---------------------------------------------------------------------------
@@ -124,7 +126,71 @@ package body Util is
   end Render;
 
   ---------------------------------------------------------------------------
-  -- Initialize OpenGL and various other libraries and variables.
+  -- Initialize all shaders
+  procedure Init_Shaders
+  is
+
+    -------------------------------------------------------------------------
+    -- Helper procedure for loading and compiling shaders and checking errors.
+    procedure Add_Shader
+      ( Shader_Program: in GL.UInt;
+        Path          : in String;
+        Shader_Type   : in GL.Enum
+      )
+    is
+      Shader_Error  : exception;
+      Shader_Object : GL.UInt;
+      Success       : Boolean := False;
+    begin
+      Shader.From_File (Shader_Type, Path, Shader_Object, Success);
+
+      if not Success then
+        raise Shader_Error with "Failed to load shader: " & Path;
+      end if;
+
+      GL.Compile_Shader (Shader_Object);
+      GL.Attach_Shader  (Shader_Program, Shader_Object);
+    end Add_Shader;
+
+    -------------------------------------------------------------------------
+    -- Exceptions.
+    Link_Error    : exception;
+    Validate_Error: exception;
+    -- Local variables.
+    Shader_Program: constant GL.UInt := GL.Create_Program;
+    Success       : Boolean := False;
+
+    -------------------------------------------------------------------------
+
+  begin
+    Add_Shader
+      ( Shader_Program,
+        "src/tut03/shaders/triangle.vert",
+        GL.GL_VERTEX_SHADER
+      );
+    Add_Shader
+      ( Shader_Program,
+        "src/tut03/shaders/triangle.frag",
+        GL.GL_FRAGMENT_SHADER
+      );
+
+    GL.Link_Program (Shader_Program);
+    GL.Get_Program  (Shader_Program, GL.GL_LINK_STATUS, Success'Address);
+    if not Success then
+      raise Link_Error with Program.Get_Info_Log (Shader_Program);
+    end if;
+
+    GL.Validate_Program (Shader_Program);
+    GL.Get_Program (Shader_Program, GL.GL_VALIDATE_STATUS, Success'Address);
+    if not Success then
+      raise Validate_Error with Program.Get_Info_Log (Shader_Program);
+    end if;
+
+    GL.Use_Program (Shader_Program);
+  end Init_Shaders;
+
+  ---------------------------------------------------------------------------
+  -- Initialize OpenGL and various other libraries, shaders and variables.
   procedure Init
   is
   begin
@@ -143,6 +209,8 @@ package body Util is
           GL.GL_STATIC_DRAW
         );
     end Create_Vertex_Buffer;
+
+    Init_Shaders;
   end Init;
 
   ---------------------------------------------------------------------------
