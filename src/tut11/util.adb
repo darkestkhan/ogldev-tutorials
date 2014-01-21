@@ -121,9 +121,9 @@ package body Util is
     Pipeline.World_Pos (Pipe, EF.Sin (Scale), 0.0, 0.0);
     Pipeline.Rotate
       ( Pipe,
-        EF.Sin (Scale * 90.0),
-        EF.Sin (Scale * 90.0),
-        EF.Sin (Scale * 90.0)
+        EF.Sin (Scale) * 90.0,
+        EF.Sin (Scale) * 90.0,
+        EF.Sin (Scale) * 90.0
       );
   end Update;
 
