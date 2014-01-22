@@ -26,18 +26,19 @@ pragma License (Modified_GPL);
 -- however invalidate  any other reasons why  the executable file  might be --
 -- covered by the  GNU Public License.                                      --
 ------------------------------------------------------------------------------
-with System;
+with Lumen.Events;
+with Lumen.Window;
+use Lumen;
 
-with Lumen.GL;
-package body Util is
-
-  ---------------------------------------------------------------------------
-
-  VBO: GL.UInt;
+package Util is
 
   ---------------------------------------------------------------------------
-  -- Terminate application.
-  Terminated            : Boolean := False;
+
+  Win: Window.Window_Handle;
+
+  Default_Screen_Width  : constant Natural := 640;
+  Default_Screen_Height : constant Natural := 480;
+  Default_Screen_FPS    : constant Natural := 60;
 
   ---------------------------------------------------------------------------
 
@@ -45,23 +46,7 @@ package body Util is
     ( Category  : Lumen.Events.Key_Category;
       Symbol    : Lumen.Events.Key_Symbol;
       Modifiers : Lumen.Events.Modifier_Set
-    )
-  is
-    Pragma Unreferenced (Modifiers);
-  begin
-    case Category is
-      when Events.Key_Control .. Events.Key_Graphic =>
-        declare
-          C: constant Character := Events.To_Character (Symbol);
-        begin
-          case C is
-            when ASCII.ESC  => Terminated := True;
-            when others     => Null;
-          end case;
-        end;
-      when others => Null;
-    end case;
-  end Handle_Key_Press;
+    );
 
   ---------------------------------------------------------------------------
 
@@ -69,81 +54,23 @@ package body Util is
     ( Category  : Lumen.Events.Key_Category;
       Symbol    : Lumen.Events.Key_Symbol;
       Modifiers : Lumen.Events.Modifier_Set
-    )
-  is
-    Pragma Unreferenced (Category);
-    Pragma Unreferenced (Symbol);
-    Pragma Unreferenced (Modifiers);
-  begin
-    Null;
-  end Handle_Key_Release;
+    );
 
   ---------------------------------------------------------------------------
 
-  function New_Frame (Frame_Delta: in Duration) return Boolean
-  is
-    Pragma Unreferenced (Frame_Delta);
-  begin
-    Update;
-    Render (Win);
-
-    return not Terminated;
-  end New_Frame;
+  function New_Frame (Frame_Delta: in Duration) return Boolean;
 
   ---------------------------------------------------------------------------
 
-  procedure Update
-  is
-  begin
-    Null;
-  end Update;
+  procedure Update;
 
   ---------------------------------------------------------------------------
 
-  procedure Render (Win: in Window.Window_Handle)
-  is
-  begin
-    GL.Clear (GL.GL_COLOR_BUFFER_BIT);
-
-    GL.Enable_Vertex_Attrib_Array (0);
-    GL.Bind_Buffer (GL.GL_ARRAY_BUFFER, VBO);
-    GL.Vertex_Attrib_Pointer
-      ( 0,
-        3,
-        GL.GL_FLOAT,
-        GL.GL_FALSE,
-        0,
-        System'To_Address (0)
-      );
-
-    GL.Draw_Arrays (GL.GL_POINTS, 0, 1);
-
-    GL.Disable_Vertex_Attrib_Array (0);
-
-    Window.Swap (Win);
-  end Render;
+  procedure Render (Win: in Window.Window_Handle);
 
   ---------------------------------------------------------------------------
   -- Initialize OpenGL and various other libraries and variables.
-  procedure Init
-  is
-  begin
-    GL.Clear_Color (0.0, 0.0, 0.0, 0.0);
-
-    Create_Vertex_Buffer: declare
-      Vertices: constant array (0 .. 8) of Float :=
-        ( -1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0 );
-    begin
-      GL.Gen_Buffers (1, VBO'Address);
-      GL.Bind_Buffer (GL.GL_ARRAY_BUFFER, VBO);
-      GL.Buffer_Data
-        ( GL.GL_ARRAY_BUFFER,
-          Vertices'Length * (Float'Size / 8),
-          Vertices'Address,
-          GL.GL_STATIC_DRAW
-        );
-    end Create_Vertex_Buffer;
-  end Init;
+  procedure Init;
 
   ---------------------------------------------------------------------------
 
