@@ -13,3 +13,4 @@ gprbuild -p src/tut10.gpr
 gprbuild -p src/tut11.gpr
 gprbuild -p src/tut12.gpr
 gprbuild -p src/tut13.gpr
+gprbuild -p src/tut14.gpr
