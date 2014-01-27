@@ -42,7 +42,7 @@ begin
     );
 
   Util.Win.Key_Press    := Util.Handle_Key_Press'Access;
-  Util.win.Key_Release  := Util.Handle_Key_Release'Access;
+  Util.Win.Key_Release  := Util.Handle_Key_Release'Access;
 
   Util.Init;
 

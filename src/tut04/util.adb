@@ -49,7 +49,7 @@ package body Util is
       Modifiers : Lumen.Events.Modifier_Set
     )
   is
-    Pragma Unreferenced (Modifiers);
+    pragma Unreferenced (Modifiers);
   begin
     case Category is
       when Events.Key_Control .. Events.Key_Graphic =>
@@ -58,10 +58,10 @@ package body Util is
         begin
           case C is
             when ASCII.ESC  => Terminated := True;
-            when others     => Null;
+            when others     => null;
           end case;
         end;
-      when others => Null;
+      when others => null;
     end case;
   end Handle_Key_Press;
 
@@ -73,18 +73,18 @@ package body Util is
       Modifiers : Lumen.Events.Modifier_Set
     )
   is
-    Pragma Unreferenced (Category);
-    Pragma Unreferenced (Symbol);
-    Pragma Unreferenced (Modifiers);
+    pragma Unreferenced (Category);
+    pragma Unreferenced (Symbol);
+    pragma Unreferenced (Modifiers);
   begin
-    Null;
+    null;
   end Handle_Key_Release;
 
   ---------------------------------------------------------------------------
 
   function New_Frame (Frame_Delta: in Duration) return Boolean
   is
-    Pragma Unreferenced (Frame_Delta);
+    pragma Unreferenced (Frame_Delta);
   begin
     Update;
     Render (Win);
@@ -97,7 +97,7 @@ package body Util is
   procedure Update
   is
   begin
-    Null;
+    null;
   end Update;
 
   ---------------------------------------------------------------------------

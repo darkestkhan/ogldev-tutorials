@@ -308,7 +308,6 @@ package body Pipeline is
 
   ---------------------------------------------------------------------------
 
-
   procedure Get_Trans
     ( This  : in  out Pipeline;
       Trans :     out GL.Float_Matrix
